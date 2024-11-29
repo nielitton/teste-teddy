@@ -4,6 +4,7 @@ import { APP_PORT } from './core/environments/environments';
 import { BusinessExceptionFilter } from './core/exception/business-exception-filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CustomLogger } from './core/logger/custom.logger';
 
 async function bootstrap() {
 
@@ -22,6 +23,8 @@ async function bootstrap() {
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
+
+  app.useLogger(app.get(CustomLogger))
 
   await app.listen(APP_PORT ?? 3333);
   console.log(`App is running on port ${APP_PORT}`)
