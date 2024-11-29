@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { ClientService } from "../services/client.service";
 import { CreateClientDto, UpdateClientDto } from "src/core/models/dto/client.dto";
+import { ApiParam } from "@nestjs/swagger";
 
 
 @Controller('client')
@@ -15,7 +16,13 @@ export class ClientController {
     }
 
     @Get('/:id')
-    async findOne(@Param() { id }) {
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        example: '1',
+        description: 'id do cliente'
+    })
+    async findOne(@Param('id') id: string) {
         return await this.clientService.findOne(id)
     }
 
@@ -24,13 +31,25 @@ export class ClientController {
         return await this.clientService.create(data)
     }
 
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        example: '1',
+        description: 'id do cliente'
+    })
     @Delete('/:id')
-    async delete(@Param() {id}) {
+    async delete(@Param('id') id: string) {
         return await this.clientService.delete(id)
     }
 
+    @ApiParam({
+        name: 'id',
+        type: 'string',
+        example: '1',
+        description: 'id do cliente'
+    })
     @Patch('/:id')
-    async update(@Body() data: UpdateClientDto, @Param() { id }) {
+    async update(@Body() data: UpdateClientDto, @Param('id') id: string) {
         return await this.clientService.update(id, data)
     }
 }

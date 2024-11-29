@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { APP_PORT } from './core/environments/environments';
 import { BusinessExceptionFilter } from './core/exception/business-exception-filter';
 import { ValidationPipe } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
 
@@ -13,6 +14,15 @@ async function bootstrap() {
   app.enableCors({
     origin: true,
   });
+
+  const config = new DocumentBuilder()
+    .setTitle('Clients')
+    .setDescription('Api criada para o teste na empresa Teddy')
+    .setVersion('1.0')
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory);
+
   await app.listen(APP_PORT ?? 3333);
   console.log(`App is running on port ${APP_PORT}`)
 }
