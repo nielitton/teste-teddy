@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { ClientEntity } from 'src/core/models/entities/client.entity';
 @Module({
     imports: [TypeOrmModule.forRootAsync({
         useFactory: async (configService: ConfigService) => ({
@@ -10,7 +11,7 @@ import { ConfigService } from '@nestjs/config';
             username: configService.get('DB_USERNAME'),
             password: configService.get('DB_PASSWORD'),
             database: configService.get('DB_NAME'),
-            entities: [__dirname + '/**/*.entity{.ts,.js}'],
+            entities: [ClientEntity],
             migrations: [__dirname + '/migrations/*.ts'],
             synchronize: false,
         }),

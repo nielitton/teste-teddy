@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ClientDto } from "src/core/models/dto/client.dto";
+import { BusinessException } from "src/core/exception/business-exception";
+import { CreateClientDto, UpdateClientDto } from "src/core/models/dto/client.dto";
 import { ClientEntity } from "src/core/models/entities/client.entity";
 import { Repository } from "typeorm";
 
@@ -12,33 +13,48 @@ export class ClientService {
     ) {}
 
     async findAll(): Promise<ClientEntity[]> {
-        return await this.clientRepository.find() || [];
+
+        // Aqui estou implementando o soft delete, onde procuro apenas os clientes com a propriedade "active" = true
+        return await this.clientRepository.find({
+            where: {
+                active: true
+            }
+        }) || [];
     }
 
     async findOne(id: string): Promise<ClientEntity> {
-        return await this.clientRepository.findOne({
-            where: { id }
+        const findedClient = await this.clientRepository.findOne({
+            where: { id: id, active: true }
         });
+
+        if(!findedClient) {
+            throw new BusinessException("Cliente não encontrado", null, 404)
+        }
+
+        return findedClient
     }
 
-    async create(user: ClientEntity): Promise<ClientEntity> {
-        return await this.clientRepository.save(user);
+    async create(data: ClientEntity): Promise<ClientEntity> {
+        return await this.clientRepository.save(data);
     }
 
-    async update(id: string, client: ClientDto): Promise<ClientEntity> {
-        await this.clientRepository.update({ id }, client);
+    async update(id: string, data: UpdateClientDto) {
 
-        return await this.clientRepository.findOne({
-            where: { id }
-        });
+        await this.findOne(id)
+        await this.clientRepository.update({ id }, data);
+        return await this.clientRepository.findOne({ where: { id } })
     }
 
     // Aqui uso a técnica do soft delete.
-    async delete(id: string): Promise<void> {
+    async delete(id: string): Promise<ClientEntity> {
+        const clientToDelete = await this.findOne(id)
+
         await this.clientRepository.update({
             id
         }, {
             active: false
         });
+
+        return await this.clientRepository.findOne({ where: { id }})
     }
 }

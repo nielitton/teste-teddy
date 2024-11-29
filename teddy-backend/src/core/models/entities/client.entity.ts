@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity({ name: 'client' })
 export class ClientEntity {
     @PrimaryGeneratedColumn('uuid')
-    id: string;
+    id?: string;
   
     @Column({ type: 'varchar' })
     name: string;
@@ -15,5 +15,5 @@ export class ClientEntity {
     enterprise: number;
 
     @Column({ type: 'boolean', default: true })
-    active: boolean;
+    active?: boolean;
 }
