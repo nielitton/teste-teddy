@@ -7,9 +7,9 @@ export interface IClientResponse {
 }
 
 export class ClientService {
-    async findAll(page: number, limit: number): Promise<IClientResponse> {
+    async findAll(page: number, limit: number, filterByName?: string): Promise<IClientResponse> {
         try {
-            const response = await apiBase.get<IClientResponse>(`/client?limit=${limit}&page=${page}`);
+            const response = await apiBase.get<IClientResponse>(`/client?limit=${limit}&page=${page}&filterByName=${filterByName}`);
             return response.data;
         } catch (error) {
             console.error("Erro ao obter clientes:", error);

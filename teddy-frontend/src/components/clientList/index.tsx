@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClientService, IClientResponse } from "../../services/client.service";
 import ClientCard from "../clientCard/clientCard";
 import { ClientListContainer } from "./style";
@@ -7,23 +7,26 @@ import { useQuery } from "@tanstack/react-query";
 import { ModalCreateAndUpdate } from "../modal/modalCreateUpdate/modalCreateAndUpdate";
 import { ClientStore } from "../../stores/clients/client.store";
 import { useLocation } from "react-router-dom";
+import { Input } from "@mui/joy";
 
 const ClientList = () => {
     const location = useLocation();
     const page = location.pathname;
     const clientService = new ClientService();
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
+    const [clientFindingName, setClientFindingName] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>('');
     const [limit, setLimit] = useState<number>(12);
 
 
     const selectedClients = ClientStore((state) => state.selectedClients);
     const clearSelectedClients = ClientStore((state) => state.clearSelectedClients)
     const { data: clients, isLoading, isError, error } = useQuery<IClientResponse>({
-        queryKey: ["clients", currentPage, limit],
+        queryKey: ["clients", debouncedSearchTerm, currentPage, limit],
         queryFn: async () => {
             try {
-                const data = await clientService.findAll(currentPage, limit);
+                const data = await clientService.findAll(currentPage, limit, debouncedSearchTerm);
                 return data;
             } catch (err) {
                 throw new Error("Não foi possível carregar os clientes.");
@@ -58,8 +61,21 @@ const ClientList = () => {
         return pageNumbers;
     };
 
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchTerm(clientFindingName);
+        }, 500);
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [clientFindingName]);
+
     return (
         <ClientListContainer>
+            <div>
+                <Input onChange={(e) => setClientFindingName(e.currentTarget.value)} placeholder="Pesquise pelo nome do cliente" />
+            </div>
             <div className="header-list-container">
                 {
                     page === "/selected-clients" ?
@@ -67,7 +83,7 @@ const ClientList = () => {
                             <span className="bold">Clientes selecionados:</span>
                         </div>
                         :
-                        <>
+                        <div className="header-list">
                             <div>
                                 <span className="bold">{clients?.count}</span> Clientes encontrados:
                             </div>
@@ -77,7 +93,7 @@ const ClientList = () => {
                                     {options.map(optionItem => <option value={optionItem} key={optionItem}>{optionItem}</option>)}
                                 </select>
                             </div>
-                        </>
+                        </div>
                 }
             </div>
             <ul>
