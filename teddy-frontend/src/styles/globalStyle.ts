@@ -1,0 +1,41 @@
+import { createGlobalStyle } from 'styled-components'
+
+const GlobalStyle = createGlobalStyle`
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: 0;
+}
+body, html {
+ height: 100%;
+ font-family: "Inter", sans-serif;
+}
+.App {
+  display: flex;
+  align-items: center;
+}
+li {
+    list-style: none;
+  }
+    button{
+        cursor: pointer;
+        :hover {
+        filter: brightness(75%);
+        transition: 0.3s;
+        }
+        :active {
+        filter: brightness(1.6);
+        transition: 0.3s;
+    }
+    }
+  :root {
+    --primary-color: #EC6724;
+    --pretty-black: #131313
+    --white-color: #fff;
+    --light-gray-color: #f7f7f7;
+    --gray-color: #c5c5c5;
+    --gray-color-2: #999c9f; 
+  }
+`
+export default GlobalStyle
