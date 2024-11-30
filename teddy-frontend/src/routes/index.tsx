@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import Login from "../pages/login/login";
 import PrivateRoute from "./privateRoute";
 import PublicRoute from "./publicRoute";
+import Home from "../pages/home";
 
 function Routers() {
     return (
@@ -16,7 +17,7 @@ function Routers() {
             <Route
                 path="/"
                 element={
-                    <PrivateRoute element={<div>Home</div>} />
+                    <PrivateRoute element={<Home />} />
                 }
             />
         </Routes>

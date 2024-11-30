@@ -15,6 +15,9 @@ body, html {
   display: flex;
   align-items: center;
 }
+ul, li, a {
+  color: currentColor;
+}
 li {
     list-style: none;
   }
