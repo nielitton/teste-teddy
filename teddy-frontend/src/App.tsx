@@ -4,6 +4,8 @@ import Routers from './routes'
 import GlobalStyle from './styles/globalStyle'
 
 function App() {
+  console.log(import.meta.env.VITE_API_URL)
+
   return (
     <>
       <GlobalStyle />

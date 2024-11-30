@@ -10,16 +10,18 @@ export class ClientService {
     constructor(
         @InjectRepository(ClientEntity)
         private readonly clientRepository: Repository<ClientEntity>
-    ) {}
+    ) { }
 
-    async findAll(): Promise<ClientEntity[]> {
-
-        // Aqui estou implementando o soft delete, onde procuro apenas os clientes com a propriedade "active" = true
-        return await this.clientRepository.find({
+    async findAll(page: number = 1, limit: number = 10): Promise<{ clients: ClientEntity[], count: number }> {
+        const [clients, count] = await this.clientRepository.findAndCount({
             where: {
-                active: true
-            }
-        }) || [];
+                active: true, // Filtro para clientes ativos
+            },
+            skip: (page - 1) * limit, // Pula os registros das páginas anteriores
+            take: limit, // Limita a quantidade de registros por página
+        });
+
+        return { clients, count };
     }
 
     async findOne(id: string): Promise<ClientEntity> {
@@ -27,7 +29,7 @@ export class ClientService {
             where: { id: id, active: true }
         });
 
-        if(!findedClient) {
+        if (!findedClient) {
             throw new BusinessException("Cliente não encontrado", null, 404)
         }
 
@@ -53,6 +55,6 @@ export class ClientService {
             active: false
         });
 
-        return await this.clientRepository.findOne({ where: { id }})
+        return await this.clientRepository.findOne({ where: { id } })
     }
 }

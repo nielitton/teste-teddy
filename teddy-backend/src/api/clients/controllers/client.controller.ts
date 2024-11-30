@@ -1,18 +1,34 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from "@nestjs/common";
 import { ClientService } from "../services/client.service";
 import { CreateClientDto, UpdateClientDto } from "../../../core/models/dto/client.dto";
-import { ApiParam } from "@nestjs/swagger";
+import { ApiParam, ApiQuery } from "@nestjs/swagger";
 
 
 @Controller('client')
 export class ClientController {
     constructor(
         private readonly clientService: ClientService
-    ) {}
-   
-    @Get('')
-    async findAll() {
-        return await this.clientService.findAll();
+    ) { }
+
+    @Get()
+    @ApiQuery({
+        name: 'page',
+        type: Number,
+        description: 'Número da página',
+        example: 1,
+    })
+    @ApiQuery({
+        name: 'limit',
+        type: Number,
+        description: 'Número de resultados por página',
+        example: 10,
+    })
+    async findAll(
+        @Query('page') page: number = 1,
+        @Query('limit') limit: number = 10,
+    ) {
+        // Passando os parâmetros de paginação para o serviço
+        return await this.clientService.findAll(page, limit);
     }
 
     @Get('/:id')
