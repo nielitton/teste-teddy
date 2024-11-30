@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { BusinessException } from "src/core/exception/business-exception";
+import { BusinessException } from "../../../core/exception/business-exception";
 import { CreateClientDto, UpdateClientDto } from "src/core/models/dto/client.dto";
-import { ClientEntity } from "src/core/models/entities/client.entity";
+import { ClientEntity } from "../../../core/models/entities/client.entity";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -34,7 +34,7 @@ export class ClientService {
         return findedClient
     }
 
-    async create(data: ClientEntity): Promise<ClientEntity> {
+    async create(data: CreateClientDto): Promise<ClientEntity> {
         return await this.clientRepository.save(data);
     }
 
@@ -47,8 +47,6 @@ export class ClientService {
 
     // Aqui uso a técnica do soft delete.
     async delete(id: string): Promise<ClientEntity> {
-        const clientToDelete = await this.findOne(id)
-
         await this.clientRepository.update({
             id
         }, {

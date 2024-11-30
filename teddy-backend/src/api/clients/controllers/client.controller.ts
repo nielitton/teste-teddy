@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { ClientService } from "../services/client.service";
-import { CreateClientDto, UpdateClientDto } from "src/core/models/dto/client.dto";
+import { CreateClientDto, UpdateClientDto } from "../../../core/models/dto/client.dto";
 import { ApiParam } from "@nestjs/swagger";
 
 
