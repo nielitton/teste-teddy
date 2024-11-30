@@ -27,7 +27,7 @@ export class ClientController {
         name: 'filterByName',
         type: String,
         description: 'Filtro para clientes por nome',
-        example: 'active:true',
+        example: 'John',
     })
     async findAll(
         @Query('filterByName') filterByName: string = '',
