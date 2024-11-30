@@ -20,6 +20,12 @@ function Routers() {
                     <PrivateRoute element={<Home />} />
                 }
             />
+            <Route
+                path="/selected-clients"
+                element={
+                    <PrivateRoute element={<Home />} />
+                }
+            />
         </Routes>
     );
 }

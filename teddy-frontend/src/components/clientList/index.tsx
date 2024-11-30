@@ -4,12 +4,21 @@ import ClientCard from "../clientCard/clientCard";
 import { ClientListContainer } from "./style";
 import { Button } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import { ModalCreateAndUpdate } from "../modal/modalCreateUpdate/modalCreateAndUpdate";
+import { ClientStore } from "../../stores/clients/client.store";
+import { useLocation } from "react-router-dom";
 
 const ClientList = () => {
+    const location = useLocation();
+    const page = location.pathname;
     const clientService = new ClientService();
+    const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [limit, setLimit] = useState<number>(12);
 
+
+    const selectedClients = ClientStore((state) => state.selectedClients);
+    const clearSelectedClients = ClientStore((state) => state.clearSelectedClients)
     const { data: clients, isLoading, isError, error } = useQuery<IClientResponse>({
         queryKey: ["clients", currentPage, limit],
         queryFn: async () => {
@@ -52,47 +61,75 @@ const ClientList = () => {
     return (
         <ClientListContainer>
             <div className="header-list-container">
-                <div>
-                    <span className="bold">{clients?.count}</span> Clientes encontrados:
-                </div>
-                <div>
-                    Clientes por página:
-                    <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="limit-page-select">
-                        {options.map(optionItem => <option value={optionItem}>{optionItem}</option>)}
-                    </select>
-                </div>
+                {
+                    page === "/selected-clients" ?
+                        <div>
+                            <span className="bold">Clientes selecionados:</span>
+                        </div>
+                        :
+                        <>
+                            <div>
+                                <span className="bold">{clients?.count}</span> Clientes encontrados:
+                            </div>
+                            <div>
+                                Clientes por página:
+                                <select value={limit} onChange={(e) => setLimit(Number(e.target.value))} className="limit-page-select">
+                                    {options.map(optionItem => <option value={optionItem} key={optionItem}>{optionItem}</option>)}
+                                </select>
+                            </div>
+                        </>
+                }
             </div>
             <ul>
-                {clients?.clients.map((client) => (
-                    <ClientCard id={client.id} key={client.id} enterprise={client.enterprise} name={client.name} wage={client.wage} />
-                ))}
+                {
+                    page === "/selected-clients" && selectedClients.length > 0 ?
+                        selectedClients.map((client) => (
+                            <ClientCard id={client.id} key={client.id} enterprise={client.enterprise} name={client.name} wage={client.wage} />
+                        ))
+                        :
+                        page === "/selected-clients" && selectedClients.length < 1 ? <div>Selecione clientes</div> :
+                            clients?.clients.map((client) => (
+                                <ClientCard id={client.id} key={client.id} enterprise={client.enterprise} name={client.name} wage={client.wage} />
+                            ))
+                }
             </ul>
-            <Button className="button-create" variant="outlined">
-                Criar cliente
+
+            <Button onClick={() => page === "/selected-clients" ? clearSelectedClients() : setOpenModalCreate(!openModalCreate)} className="button-create" variant="outlined">
+                {page === "/selected-clients" ? "Limpar clientes selecionados" : "Criar cliente"}
             </Button>
-            <div className="pagination">
-                <Button
-                    onClick={handlePrevPage}
-                    disabled={currentPage === 1}
-                >
-                    &lt;
-                </Button>
-                {generatePageNumbers().map((pageNumber) => (
-                    <Button
-                        key={pageNumber}
-                        onClick={() => setCurrentPage(pageNumber)}
-                        className={currentPage === pageNumber ? "active-page" : ""}
-                    >
-                        {pageNumber}
-                    </Button>
-                ))}
-                <Button
-                    onClick={handleNextPage}
-                    disabled={clients?.count !== undefined && currentPage === Math.ceil(clients?.count / limit)}
-                >
-                    &gt;
-                </Button>
-            </div>
+            {
+                page === "/selected-clients" ?
+                    null
+                    :
+                    <div className="pagination">
+                        <Button
+                            onClick={handlePrevPage}
+                            disabled={currentPage === 1}
+                        >
+                            &lt;
+                        </Button>
+                        {generatePageNumbers().map((pageNumber) => (
+                            <Button
+                                key={pageNumber}
+                                onClick={() => setCurrentPage(pageNumber)}
+                                className={currentPage === pageNumber ? "active-page" : ""}
+                            >
+                                {pageNumber}
+                            </Button>
+                        ))}
+                        <Button
+                            onClick={handleNextPage}
+                            disabled={clients?.count !== undefined && currentPage === Math.ceil(clients?.count / limit)}
+                        >
+                            &gt;
+                        </Button>
+                    </div>
+            }
+            <ModalCreateAndUpdate
+                handleClose={() => setOpenModalCreate(!openModalCreate)}
+                isOpen={openModalCreate}
+                mode="create"
+            />
         </ClientListContainer>
     );
 };

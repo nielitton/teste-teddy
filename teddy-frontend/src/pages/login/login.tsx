@@ -1,13 +1,13 @@
 import { Button, TextField } from "@mui/material";
 import { LoginContainer } from "./style";
 import { useNavigate } from "react-router";
-import { userStore } from "../../stores/users/user.store";
+import { ClientStore } from "../../stores/clients/client.store";
 import { toast } from "react-toastify";
 
 function Login() {
-    const username = userStore(state => state.username);
-    const setUserName = userStore((state) => state.login);
-    const setAuthenticated = userStore((state) => state.authenticate);
+    const username = ClientStore(state => state.username);
+    const setUserName = ClientStore((state) => state.login);
+    const setAuthenticated = ClientStore((state) => state.authenticate);
     const navigate = useNavigate();
 
     const handleLogin = () => {

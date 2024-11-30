@@ -37,7 +37,14 @@ export const ClientCardContainer = styled.div`
         background-color: transparent;
         border: none;
     }
-
+    .selected-client-remove {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .selected-client-remove >:hover {
+        color: red;
+    }
     .icon-action {
         width: 20px;
         height: 20px;

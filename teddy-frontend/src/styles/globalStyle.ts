@@ -21,6 +21,20 @@ ul, li, a {
 .bold {
   font-weight: bold;
 }
+.hover-click-green:hover {
+  color: #008000;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.hover-click-yellow:hover {
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.not-to-click {
+  pointer-events: none;
+  cursor: not-allowed;
+}
 li {
     list-style: none;
   }

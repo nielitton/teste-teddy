@@ -3,7 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { BusinessException } from "../../../core/exception/business-exception";
 import { CreateClientDto, UpdateClientDto } from "src/core/models/dto/client.dto";
 import { ClientEntity } from "../../../core/models/entities/client.entity";
-import { Repository } from "typeorm";
+import { ILike, Like, Repository } from "typeorm";
 
 @Injectable()
 export class ClientService {
@@ -12,17 +12,26 @@ export class ClientService {
         private readonly clientRepository: Repository<ClientEntity>
     ) { }
 
-    async findAll(page: number = 1, limit: number = 10): Promise<{ clients: ClientEntity[], count: number }> {
+    async findAll(page: number = 1, limit: number = 10, filterByName?: string): Promise<{ clients: ClientEntity[], count: number }> {
+        const where: any = {
+            active: true, // Filtro para clientes ativos
+        };
+
+        if (filterByName && filterByName.trim() !== '') {
+            where.name = ILike(`%${filterByName.trim()}%`);  // Busca com ILIKE (case insensitive)
+        }
+
         const [clients, count] = await this.clientRepository.findAndCount({
-            where: {
-                active: true, // Filtro para clientes ativos
-            },
-            skip: (page - 1) * limit, // Pula os registros das páginas anteriores
-            take: limit, // Limita a quantidade de registros por página
+            where,
+            skip: (page - 1) * limit,
+            take: limit,
         });
 
         return { clients, count };
     }
+
+
+
 
     async findOne(id: string): Promise<ClientEntity> {
         const findedClient = await this.clientRepository.findOne({

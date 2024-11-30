@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
-import { userStore } from "../../stores/users/user.store";
+import { ClientStore } from "../../stores/clients/client.store";
 import { HeaderContainer, NavBar, NavBarLi, SidebarOverlay } from "./style";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import SideBar from "../sidebar/sidebar";
 
 function Header() {
     const [sidebarOpen, setSidebarOpen] = useState(false); // Controla se o menu lateral está aberto
-    const username = userStore((state) => state.username);
-    const logout = userStore((state) => state.logout);
+    const username = ClientStore((state) => state.username);
+    const logout = ClientStore((state) => state.logout);
     const location = useLocation();
 
     const handleLogout = () => {
@@ -32,19 +32,19 @@ function Header() {
             <NavBar className="navbar">
                 <ul className="ul-nav">
                     <NavBarLi>
-                        <a href="/" className={selectedLocation === "/" ? "active" : "disable"}>
+                        <Link to="/" className={selectedLocation === "/" ? "active" : "disable"}>
                             Clientes
-                        </a>
+                        </Link>
                     </NavBarLi>
                     <NavBarLi>
-                        <a href="/selected-clients" className={selectedLocation === "/selected-clients" ? "active" : "disable"}>
+                        <Link to="/selected-clients" className={selectedLocation === "/selected-clients" ? "active" : "disable"}>
                             Clientes selecionados
-                        </a>
+                        </Link>
                     </NavBarLi>
                     <NavBarLi onClick={handleLogout}>
-                        <a href="/login" className="disable">
+                        <Link to="/login" className="disable">
                             Sair
-                        </a>
+                        </Link>
                     </NavBarLi>
                 </ul>
             </NavBar>

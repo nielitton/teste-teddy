@@ -23,12 +23,18 @@ export class ClientController {
         description: 'Número de resultados por página',
         example: 10,
     })
+    @ApiQuery({
+        name: 'filterByName',
+        type: String,
+        description: 'Filtro para clientes por nome',
+        example: 'active:true',
+    })
     async findAll(
+        @Query('filterByName') filterByName: string = '',
         @Query('page') page: number = 1,
         @Query('limit') limit: number = 10,
     ) {
-        // Passando os parâmetros de paginação para o serviço
-        return await this.clientService.findAll(page, limit);
+        return await this.clientService.findAll(page, limit, filterByName);
     }
 
     @Get('/:id')

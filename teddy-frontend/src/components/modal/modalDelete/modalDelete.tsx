@@ -1,10 +1,10 @@
 import { Button, Modal } from "@mui/material"
-import { IModal } from "../../models/modal.entity"
+import { IModal } from "../../../models/modal.entity"
 import ModalClose from '@mui/joy/ModalClose';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DialogTitle from '@mui/joy/DialogTitle'
 import DialogContent from '@mui/joy/DialogContent'
-import { ClientService } from "../../services/client.service";
+import { ClientService } from "../../../services/client.service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -13,12 +13,10 @@ export const ModalDelete = ({ isOpen, handleClose, id, name }: IModal) => {
     const clientService = new ClientService()
     const queryClient = useQueryClient()
 
-    const { mutate: deleteClientMutation, isError, error } = useMutation({
+    const { mutate: deleteClientMutation } = useMutation({
         mutationFn: (id: string) => clientService.deleteClient(id),
         onSuccess: () => {
-
             queryClient.invalidateQueries({ queryKey: ["clients"] });
-
             toast.success("Cliente excluído com sucesso");
         },
         onError: (err) => {
@@ -27,7 +25,7 @@ export const ModalDelete = ({ isOpen, handleClose, id, name }: IModal) => {
     });
 
     const handleDelete = () => {
-        deleteClientMutation(id)
+        deleteClientMutation(id || '')
     }
 
     return (
