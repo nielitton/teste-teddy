@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import Header from "../components/header/header";
 
 interface PrivateRouteProps {
     element: React.ReactNode;
@@ -13,7 +14,10 @@ const PrivateRoute = ({ element }: PrivateRouteProps) => {
     }
 
     // Se estiver autenticado, renderiza o componente
-    return <>{element}</>;
+    return <>
+        <Header />
+        {element}
+    </>;
 };
 
 export default PrivateRoute;

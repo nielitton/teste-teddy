@@ -18,6 +18,9 @@ body, html {
 ul, li, a {
   color: currentColor;
 }
+.bold {
+  font-weight: bold;
+}
 li {
     list-style: none;
   }
@@ -38,6 +41,7 @@ li {
     --white-color: #fff;
     --light-gray-color: #f7f7f7;
     --gray-color: #c5c5c5;
+    --background-gray-home-color: #F5F5F5
     --gray-color-2: #999c9f; 
   }
 `

@@ -8,8 +8,6 @@ export const HeaderContainer = styled.div`
     padding: 2rem;
     height: 100px;
     box-shadow: 0px 2px 34px 0px rgba(153,153,153,1);
-    margin-bottom: 30px;
-
     .menu-iconz {
         width: 24px;
         height: auto;

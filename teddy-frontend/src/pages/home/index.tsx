@@ -1,11 +1,11 @@
-import Header from "../../components/header/header";
+import ClientList from "../../components/clientList";
+import { HomeContainer } from "./style";
 
 function Home() {
     return (
-        <>
-            <Header />
-            <div>teste</div>
-        </>
+        <HomeContainer>
+            <ClientList />
+        </HomeContainer>
     )
 }
 
