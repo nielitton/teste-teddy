@@ -26,7 +26,7 @@ async function bootstrap() {
 
   app.useLogger(app.get(CustomLogger))
 
-  await app.listen(APP_PORT ?? 3333);
+  await app.listen(APP_PORT ?? 10000);
   console.log(`App is running on port ${APP_PORT}`)
 }
 bootstrap();
