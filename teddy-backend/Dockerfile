@@ -6,8 +6,6 @@ COPY package*.json ./
 
 RUN npm install
 
-RUN docker compose up
-
 RUN npm run migration:run
 
 COPY . .
