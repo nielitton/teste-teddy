@@ -1,5 +1,7 @@
 # React + TypeScript + Vite
 
+### Recomendo iniciar o backend antes do front-end
+
 ### Tecnologias
 - Styled Components
 - React Hook Form
