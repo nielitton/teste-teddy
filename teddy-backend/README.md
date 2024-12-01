@@ -132,4 +132,4 @@ assim ele retorna o usuário atualizado.
 
 - Contato: nieliton.sousa3040@gmail.com ou Celular: +55 (85) 99687-2527
 - Github: https://github.com/nielitton
-- Linkedin: https://linkedin/in/nielitonsousa
+- Linkedin: https://www.linkedin.com/in/nielitonsousa/
