@@ -29,7 +29,7 @@ export class ClientController {
         name: 'filterByName',
         type: String,
         description: 'Filtro para clientes por nome',
-        example: 'John',
+        example: '',
         required: false
     })
     async findAll(
