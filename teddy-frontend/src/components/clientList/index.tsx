@@ -104,7 +104,8 @@ const ClientList = () => {
                         ))
                         :
                         page === "/selected-clients" && selectedClients.length < 1 ? <div>Selecione clientes</div> :
-                            clients?.clients.map((client) => (
+                        clients?.clients.length === 0 ? <div>Nenhum cliente encontrado</div> :    
+                        clients?.clients.map((client) => (
                                 <ClientCard id={client.id} key={client.id} enterprise={client.enterprise} name={client.name} wage={client.wage} />
                             ))
                 }
