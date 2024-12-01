@@ -40,7 +40,7 @@ Execute o comando abaixo para instalar as dependências.
 npm install
 ```
 
-### Passo 3: Rodas as migrations do projeto
+### Passo 3: Rodar as migrations do projeto
 
 Para que tudo funcione corretamente e gerarmos nossas tabelas, você precisa digitar o seguinte comando.
 
