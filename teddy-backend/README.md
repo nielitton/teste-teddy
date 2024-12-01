@@ -48,7 +48,23 @@ Para que tudo funcione corretamente e gerarmos nossas tabelas, você precisa dig
 npm run migration:run
 ```
 
-### Passo 4: Iniciar o projeto
+### Passo 4: Arquivo de environments do projeto
+
+Para rodar o projeto antes de tudo você precisa criar um arquivo .env na raiz do projeto, como no .env-example
+
+Segue o arquivo para copiar
+
+```bash
+DB_HOST=localhost
+DB_USERNAME=teddy
+DB_PASSWORD=teddy
+DB_NAME=teddy_db
+DB_PORT=5432
+APP_PORT=3333
+LOG_RULES="context=AppController;level=warn/level=error"
+```
+
+### Passo 5: Iniciar o projeto
 
 Com todos os passo concluídos corretamente, você pode estar rodando o projeto com o comando.
 
