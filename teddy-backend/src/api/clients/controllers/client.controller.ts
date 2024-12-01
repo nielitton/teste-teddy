@@ -16,18 +16,21 @@ export class ClientController {
         type: Number,
         description: 'Número da página',
         example: 1,
+        required: false
     })
     @ApiQuery({
         name: 'limit',
         type: Number,
         description: 'Número de resultados por página',
         example: 10,
+        required: false
     })
     @ApiQuery({
         name: 'filterByName',
         type: String,
         description: 'Filtro para clientes por nome',
         example: 'John',
+        required: false
     })
     async findAll(
         @Query('filterByName') filterByName: string = '',
