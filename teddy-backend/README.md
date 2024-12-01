@@ -127,3 +127,9 @@ ou
 }
 
 assim ele retorna o usuário atualizado.
+
+## Pronto após isso tudo, você pode interagir com a API
+
+Contato: nieliton.sousa3040@gmail.com ou Celular: +55 (85) 99687-2527
+Github: https://github.com/nielitton
+Linkedin: https://linkedin/in/nielitonsousa
