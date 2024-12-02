@@ -19,6 +19,12 @@ body, html {
   color: red;
   font-size: 14px;
 }
+.get-out {
+  cursor: pointer;
+}
+.get-out:hover {
+  color: var(--primary-color)
+}
 ul, li, a {
   color: currentColor;
 }

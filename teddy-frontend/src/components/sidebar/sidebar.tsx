@@ -51,9 +51,9 @@ function SideBar({ sideBarOpen = false, handleLogout, setSidebarOpen }: { sideBa
                             Produtos
                         </span>
                     </SideBarLi>
-                    <SideBarLi onClick={() => logoutBySidebar()}>
-                        <HiLogout color="#333" />
-                        <Link to="/login"  className="disable not-to-click">
+                    <SideBarLi className="get-out" onClick={() => logoutBySidebar()}>
+                        <HiLogout />
+                        <Link to="/login" >
                             Sair
                         </Link>
                     </ SideBarLi>
