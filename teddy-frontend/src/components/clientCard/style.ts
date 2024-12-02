@@ -64,7 +64,7 @@ export const ClientCardContainer = styled.div`
     @media (max-width: 768px) {
         width: 100%;
         height: auto;
-        padding: 0 15px;
+        padding: 10px 15px;
         max-width: 100%;
 
         .infos {
@@ -89,7 +89,7 @@ export const ClientCardContainer = styled.div`
     @media (max-width: 480px) {
         width: 100%;
         height: auto;
-        padding: 0 10px;
+        padding: 10px 10px;
 
         .infos {
             gap: 6px;

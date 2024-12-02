@@ -8,6 +8,6 @@ export const clientSchema = z.object({
         required_error: "Você precisa digitar o salário"
     }),
     enterprise: z.string({
-        required_error: "Você precisa digitar o valor da empresas"
+        required_error: "Você precisa digitar o valor da empresa"
     })
 })
