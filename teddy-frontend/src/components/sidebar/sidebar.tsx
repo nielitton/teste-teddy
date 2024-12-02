@@ -3,10 +3,19 @@ import { SidebarContainer, SideBarLi } from "./style";
 import { IoPerson } from "react-icons/io5";
 import { PiSquaresFourFill } from "react-icons/pi";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { HiLogout } from "react-icons/hi";
 
 function SideBar({ sideBarOpen = false, handleLogout, setSidebarOpen }: { sideBarOpen: boolean, handleLogout: () => void, setSidebarOpen: (sideBarOpen: boolean) => void }) {
     const selectedLocation = location.pathname;
+    const navigate = useNavigate()
+
+    const logoutBySidebar = () => {
+        setSidebarOpen(!sideBarOpen);
+        handleLogout()
+        navigate("/login")
+    };
+
     return (
         <SidebarContainer isOpen={sideBarOpen}>
             {
@@ -36,12 +45,18 @@ function SideBar({ sideBarOpen = false, handleLogout, setSidebarOpen }: { sideBa
                             Clientes selecionados
                         </Link>
                     </SideBarLi>
-                    <SideBarLi onClick={handleLogout}>
+                    <SideBarLi>
                         <PiSquaresFourFill color={selectedLocation === "/products" ? "#EC6724" : "#333"} />
-                        <Link to="/products" className={selectedLocation === "/products" ? "active" : "disable not-to-click"}>
+                        <span className={selectedLocation === "/products" ? "active" : "disable not-to-click"}>
                             Produtos
-                        </Link>
+                        </span>
                     </SideBarLi>
+                    <SideBarLi onClick={() => logoutBySidebar()}>
+                        <HiLogout color="#333" />
+                        <Link to="/login"  className="disable not-to-click">
+                            Sair
+                        </Link>
+                    </ SideBarLi>
                 </ul>
             </div>
         </SidebarContainer>

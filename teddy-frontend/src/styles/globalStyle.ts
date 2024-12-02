@@ -15,6 +15,10 @@ body, html {
   display: flex;
   align-items: center;
 }
+.warning {
+  color: red;
+  font-size: 14px;
+}
 ul, li, a {
   color: currentColor;
 }

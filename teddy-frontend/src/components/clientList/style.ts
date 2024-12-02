@@ -8,17 +8,15 @@ export const ClientListContainer = styled.div`
   ul {
     display: flex;
     flex-wrap: wrap;
+    flex-basis: auto;
     gap: 20px;
     padding: 0;
     margin: 0;
-    justify-content: space-between;
   }
 
   li {
     list-style-type: none;
-    flex: 1 1 22%;
     min-width: 250px;
-    box-sizing: border-box;
   }
 
   .pagination {
@@ -87,6 +85,7 @@ export const ClientListContainer = styled.div`
     ul {
       display: flex;
       justify-content: center;
+      flex-direction: column;
     }
 
     .header-list {

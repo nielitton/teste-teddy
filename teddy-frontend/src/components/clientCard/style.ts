@@ -7,10 +7,11 @@ export const ClientCardContainer = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-width: 280px;
     border-radius: 4px;
     width: 100%;
+    max-width: 300px;
     height: 138px;
+    flex: 1 1 23.8%;
     border: 2px solid rgb(13, 13, 13, 0.3);
     background-color: white;
     box-sizing: border-box;
@@ -64,6 +65,7 @@ export const ClientCardContainer = styled.div`
         width: 100%;
         height: auto;
         padding: 0 15px;
+        max-width: 100%;
 
         .infos {
             gap: 8px;

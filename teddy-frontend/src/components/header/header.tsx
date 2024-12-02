@@ -10,7 +10,7 @@ function Header() {
     const username = ClientStore((state) => state.username);
     const logout = ClientStore((state) => state.logout);
     const location = useLocation();
-
+    
     const handleLogout = () => {
         localStorage.removeItem("auth");
         logout();

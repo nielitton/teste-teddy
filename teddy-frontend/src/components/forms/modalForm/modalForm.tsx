@@ -6,8 +6,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ClientService } from "../../../services/client.service";
 import { NumericFormat } from "react-number-format";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod"
 import { IClientEntity } from "../../../models/client.entity";
+import { clientSchema } from "../../../models/schemas/clientSchema";
+import type { z } from "zod";
 
 interface IFormInputs {
     id?: string;
@@ -26,9 +29,12 @@ interface IModalForm {
 function ModalForm({ mode, handleClose, client }: IModalForm) {
     const clientService = new ClientService()
     const queryClient = useQueryClient();
-    const { handleSubmit, control } = useForm<IFormInputs>();
     const [valueWage, setValueWage] = useState<number>(0)
     const [valueEnterprise, setValueEnterprise] = useState<number>(0)
+    type clientFormSchema = z.infer<typeof clientSchema>
+    const { handleSubmit, control, setValue, formState: { errors } } = useForm<clientFormSchema>({
+        resolver: zodResolver(clientSchema)
+    });
 
     const { mutate: createClient } = useMutation({
         mutationFn: (client: IFormInputs) => clientService.createClient(client),
@@ -38,9 +44,9 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
             queryClient.invalidateQueries({ queryKey: ["clients"] });
         },
         onError: (error) => {
-            toast.error("Erro ao salvar o cliente: " + error.message);
+            toast.error("Erro ao salvar o cliente");
         }
-    })
+    })   
 
     const { mutate: updateClient } = useMutation({
         mutationFn: (params: { id: string, client: IFormInputs }) => clientService.updateClient(params.id, params.client),
@@ -50,11 +56,21 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
             toast.success("Cliente atualizado com sucesso");
         },
         onError: (error) => {
-            toast.error("Erro ao atualizar o cliente: " + error.message);
+            toast.error("Erro ao atualizar o cliente");
         }
     })
 
-    const onSubmit: SubmitHandler<IFormInputs> = async (data: IFormInputs) => {
+    useEffect(() => {
+        if (mode === "update" && client) {
+            setValue("name", client.name);
+            setValue("wage", String(client.wage));
+            setValue("enterprise", String(client.enterprise));
+            setValueWage(Number(client.wage));  
+            setValueEnterprise(Number(client.enterprise)); 
+        }
+    }, [mode, client, setValue]);
+
+    const onSubmit: SubmitHandler<clientFormSchema> = async (data: clientFormSchema) => {
         if (mode === "create") {
             createClient({
                 name: data.name,
@@ -83,6 +99,7 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
                     render={({ field }) => <Input defaultValue={mode === "update" ? client.name : ''} variant="outlined" placeholder="Digite o nome" {...field} />}
                 />
             </FormControl>
+            {errors.name && <span className="warning">{errors.name.message}</span>}
             <FormControl component="fieldset">
                 <Controller
                     name="wage"
@@ -104,6 +121,7 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
                         />}
                 />
             </FormControl>
+            {errors.wage && <span className="warning">{errors.wage.message}</span>}
             <FormControl component="fieldset">
                 <Controller
                     name="enterprise"
@@ -125,6 +143,7 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
                         />}
                 />
             </FormControl>
+            {errors.enterprise && <span className="warning">{errors.enterprise.message}</span>}
             <Button type="submit" variant="outlined" style={{ backgroundColor: "var(--primary-color)", color: "white", border: "none" }} className="button-orange">
                 {mode === "create" ? "Criar Cliente" : "Editar Cliente"}
             </Button>
