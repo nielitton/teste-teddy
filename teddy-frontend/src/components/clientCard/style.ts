@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ClientCardContainer = styled.div`
     display: flex;
-    padding: 0 20px;
+    padding: 10px 20px;
     text-align: center;
     flex-direction: column;
     justify-content: center;
