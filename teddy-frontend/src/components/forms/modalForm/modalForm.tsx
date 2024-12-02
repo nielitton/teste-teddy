@@ -43,7 +43,7 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
             handleClose();
             queryClient.invalidateQueries({ queryKey: ["clients"] });
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("Erro ao salvar o cliente");
         }
     })   
@@ -55,7 +55,7 @@ function ModalForm({ mode, handleClose, client }: IModalForm) {
             queryClient.invalidateQueries({ queryKey: ["clients"] });
             toast.success("Cliente atualizado com sucesso");
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("Erro ao atualizar o cliente");
         }
     })
